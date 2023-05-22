@@ -1,0 +1,87 @@
+﻿@model SampleCode.Models.RegisterViewModel
+@{
+    ViewBag.Title = "Register";
+}
+<br />
+<br />
+<br />
+@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+<div class="container">
+    <div class="row">
+        <div class="col-md-7 col-md-offset-3">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <strong class=""><b style="font-size:20px">Register</b></strong>
+                </div>
+                <div class="panel-body">
+                    <form class="form-horizontal" role="form">
+                        <div class="form-group">
+                            <label  class="col-sm-3 control-label">First Name</label>
+                            <div class="col-sm-9">
+                                @Html.TextBoxFor(m => m.FirstName, null, new { @class = "form-control", placeholder = "First Name", required = "required" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label  class="col-sm-3 control-label">Last Name</label>
+                            <div class="col-sm-9">
+                                @Html.TextBoxFor(m => m.LastName, null, new { @class = "form-control", placeholder = "Last Name" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label  class="col-sm-3 control-label">City</label>
+                            <div class="col-sm-9">
+                                <select class="form-control ">
+                                    <option>Select City</option>
+                                    <option>Delhi</option>
+                                    <option>Noida</option>
+                                    <option>Ghaziabad</option>
+                                    <option>Gurgaon</option>
+                                    <option>Greter Noida</option>
+                                    <option>Meeruth</option>
+                                </select> 
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label  class="col-sm-3 control-label">Email</label>
+                            <div class="col-sm-9">
+                                @Html.TextBoxFor(m => m.Email, null, new { @class = "form-control", type = "email", placeholder = "Email", required = "required" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label  class="col-sm-3 control-label">Password</label>
+                            <div class="col-sm-9">
+                                @Html.TextBoxFor(m => m.Password, new { @class = "form-control", type = "password", placeholder = "Password", required = "required" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label  class="col-sm-3 control-label">Confirm Password</label>
+                            <div class="col-sm-9">
+                                @Html.TextBoxFor(m => m.ConfirmPassword, new { @class = "form-control", type = "password", placeholder = "Confirm Password", required = "required" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label  class="col-sm-3 control-label">Phone</label>
+                            <div class="col-sm-9">
+                                @Html.TextBoxFor(m => m.Phone, null, new { @class = "form-control", placeholder = "Phone" })
+                            </div>
+                        </div>
+                       
+                        <div class="form-group last">
+                            <div class="col-sm-offset-3 col-sm-9">
+                                <input type="submit" class="btn btn-success btn-lg" />
+                                <button type="reset" class="btn btn-default btn-lg">Reset</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="panel-footer">
+                    Already Account? <a href="#" class="">LOGIN here</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+}

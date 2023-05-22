@@ -1,0 +1,198 @@
+﻿@model SampleCode.Models.UserModel
+@{
+    ViewBag.Title = "Index";
+    Layout = null;
+}
+
+<br />
+<br />
+
+<form id="frmUserList">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <strong class=""><b style="font-size:20px">User List</b></strong>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-3">
+            <div class="input-group">
+            @Html.TextBoxFor(m => m.Name, null, new { @class = "form-control", placeholder = "Enter Name for search", required = "required" })
+            <span class="input-group-btn">
+                <a onclick="SearchUser()" class="btn btn-primary">Search</a>
+            </span>
+        </div>
+        </div>
+        <div class="col-md-9">
+            <button type="button" id="btnAddPlayer" class="btn btn-success pull-right" data-toggle="modal" data-target="#popUpAddUser">
+            <span class="glyphicon glyphicon-user" style="cursor: pointer;"></span>&nbsp;Add New User</button>
+        </div>
+    </div>
+    <br />
+    <div class="table-responsive">
+        <table  class="table table-condensed table-striped table-bordered table-hover no-margin">
+            
+            <thead>
+                <tr>
+                    <th style="width:5%">
+                        <input class="no-margin" type="checkbox">
+                    </th>
+                    <th style="width:40%">NAME</th>
+                    <th style="width:20%" class="hidden-phone">EMAIL</th>
+                    <th style="width:10%" class="hidden-phone">PHONE</th>
+                    <th style="width:15%" class="hidden-phone">CITY</th>
+                    <th style="width:10%" class="hidden-phone">ACTIONS</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.UserList.Count>0)
+                { 
+                for (int i = 0; i < Model.UserList.Count; i++)
+                {
+                    <tr>
+                        <td>
+                            <input class="no-margin" type="checkbox">
+                        </td>
+                        <td>
+                            <span class="name">@Model.UserList[i].FirstName</span>
+                        </td>
+                        <td class="hidden-phone">@Model.UserList[i].UserName</td>
+                        <td class="hidden-phone">
+                            <span class="label label label-info">@Model.UserList[i].Phone</span>
+                        </td>
+                        <td class="hidden-phone">@Model.UserList[i].City</td>
+                        <td class="hidden-phone">
+                            <div class="btn-group">
+                                <a onclick="EditUser(@Model.UserList[i].Id)" data-toggle="modal" data-target="#popUpAddUser">
+                                <span class="glyphicon glyphicon-pencil" style="cursor: pointer;"></span></a>&nbsp;
+                                <a><span class="glyphicon glyphicon-envelope" data-toggle="modal" data-target="#popUpSendMessage" style="cursor: pointer;"></span></a>&nbsp;
+                                <a onclick="DeleteUser(@Model.UserList[i].Id)"> <span class="glyphicon glyphicon-trash" style="cursor: pointer;"></span></a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+                }
+                else
+                {
+                    <tr >
+                        <td colspan="6">
+                            <span class="glyphicon glyphicon-exclamation-sign" style="cursor: pointer;color:red;font-size:16px;"></span>
+                            &nbsp;&nbsp;<span>Matching record not found!</span>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        
+    </div>
+
+</form>
+
+<div id="popUpAddUser" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+
+                    <div class="container">
+                        <div class="row">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <button type="button" class="close glyphicon glyphicon-remove" data-dismiss="modal" aria-hidden="true"></button>
+                                    <span class="glyphicon glyphicon-user"></span>
+                                    &nbsp;&nbsp;<strong class=""><b style="font-size:20px">Add User</b></strong>
+                                </div>
+                            </div>
+                            <form class="form-horizontal" role="form" id="frmAddUser" method="post" action="#">
+
+                                <div class="form-group">
+                                    <label for="firstName" class="col-sm-2 control-label">Name:</label>
+                                    <div class="col-sm-6">
+                                        @Html.TextBoxFor(m => m.Name, null, new { @class = "form-control", placeholder = "Name", required = "required" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="lastName" class="col-sm-2 control-label">Email</label>
+                                    <div class="col-sm-6">
+                                        @Html.TextBoxFor(m => m.Email, null, new { @class = "form-control", placeholder = "Email", required = "required" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="userName" class="col-sm-2 control-label">Phone</label>
+                                    <div class="col-sm-6">
+                                        @Html.TextBoxFor(m => m.Phone, null, new { @class = "form-control", placeholder = "Phone" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="passwd" class="col-sm-2 control-label">City</label>
+                                    <div class="col-sm-6">
+                                        @Html.TextBoxFor(m => m.City, null, new { @class = "form-control", placeholder = "City" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <a onclick="AddUser()" class="btn btn-primary" id="register">Create</a>
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div><!-- end for class "row" -->
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+<div id="popUpSendMessage" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+
+                <div class="container">
+                    <div class="row">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <button type="button" class="close glyphicon glyphicon-remove" data-dismiss="modal" aria-hidden="true"></button>
+                                <span class="glyphicon glyphicon-send"></span>
+                                &nbsp;&nbsp;<strong class=""><b style="font-size:20px">Send Message</b></strong>
+                            </div>
+                        </div>
+                        <form class="form-horizontal" role="form" method="post" action="#">
+
+                            <div class="form-group">
+                                <label for="firstName" class="col-sm-2 control-label">To:</label>
+                                <div class="col-sm-6">
+                                    <input type="text" name="firstName" class="form-control" id="firstName" placeholder="Email To" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="lastName" class="col-sm-2 control-label">Message</label>
+                                <div class="col-sm-8">
+                                  <textarea type="text" name="lastName" class="form-control" id="lastName" rows="8" cols="15" placeholder="Type message here..." required></textarea>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <button type="submit" class="btn btn-primary" id="register">Send</button>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div><!-- end for class "row" -->
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+

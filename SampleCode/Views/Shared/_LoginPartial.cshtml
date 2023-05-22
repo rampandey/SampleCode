@@ -1,0 +1,40 @@
+﻿@using Microsoft.AspNet.Identity
+@if (Session["IsAuthenticated"].ToString() == "True")
+{
+    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <br />
+        <div class="navbar-collapse collapse">
+            <div class="nav navbar-nav navbar-right">
+                <span class="glyphicon glyphicon-user"></span>&nbsp;
+                <a>
+                    @Html.ActionLink("Hello " + User.Identity.GetUserName() + "", "Admin", "User", routeValues: null, htmlAttributes: new { title = "Manage" })
+                </a>
+                &nbsp;&nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-log-out"></span>&nbsp;
+                <a href="../Account/LogOff">Log Out</a>
+            </div>
+        </div>
+    }
+}
+else
+{
+    <br />
+    <div class="navbar-collapse collapse">
+        <div class="nav navbar-nav navbar-right">
+
+            <a style="font-size:15px;">
+                <span class="glyphicon glyphicon-pencil"></span>&nbsp;
+                @Html.ActionLink("SIGN UP", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })
+            </a>
+
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <a style="font-size:15px;">
+                <span class="glyphicon glyphicon-log-in"></span>&nbsp;
+                @Html.ActionLink("LOGIN", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })
+            </a>
+
+        </div>
+    </div>
+}
